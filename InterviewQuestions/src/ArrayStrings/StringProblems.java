@@ -1,5 +1,8 @@
 package ArrayStrings;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StringProblems {
 
 	/* Given a number n, find the largest number just smaller than n 
@@ -44,10 +47,26 @@ public class StringProblems {
 		return output;
 	}
 	
+	/* Given two strings, determine whether they are anagrams (Mar 14)
+	 * */
+	public boolean checkStringAnagrams(String s1, String s2){
+		boolean areAnagrams = false;
+		
+		return areAnagrams;
+	}
+	
+	/* Given a list of strings, group strings, group them by anagrams (Mar 15)
+	 * */
+	public List<String> groupStrings(List<String> strList) {
+		List<String> list = new ArrayList<String>();
+		
+		return list;
+	}
+	
 	public static void main(String[] args){
 		StringProblems sp =new StringProblems();
 		try {
-	    System.out.println(sp.findLargestSmallerNumber(174455));
+	    System.out.println(sp.findLargestSmallerNumber(174567));
     } catch (Exception e) {
 	    System.out.println(e.getMessage());
     }
