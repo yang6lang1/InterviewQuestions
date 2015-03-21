@@ -55,7 +55,6 @@ public class StringProblems {
 	public boolean checkAnagrams(String s1, String s2){
 		if(s1 == null || s2 == null) return false;
 		Map<Character, Integer> status = new HashMap<Character, Integer>();
-		
 		for(char c : s1.toCharArray()){
 			if(status.containsKey(c)){
 				status.put(c, status.remove(c) + 1);
@@ -88,15 +87,79 @@ public class StringProblems {
 	}
 
 	public void useGroupStrings(){
-
-
+		List<String> list = new ArrayList<String>();
+		list.add("bbccc");
+		list.add("anagram");
+		list.add("aaaa");
+		list.add("margana");
+		list.add("cbcbc");
+		list.add("a");
+		System.out.println();
+		System.out.println("Original string list:");
+		for(String s : list){
+			System.out.println(s);
+		}
+		
+		System.out.println();
+		System.out.println("Grouped string list");
+		list = groupStrings(list);
+		for(String s : list){
+			System.out.println(s);
+		}
 	}
+	
 	/* Given a list of strings, group strings, group them by anagrams (Mar 15)
 	 * */
+	//test case:
+	// -empty/null list -list with one element - list with identical elements 
+	//- list with different anagram groups in various order
 	public List<String> groupStrings(List<String> strList) {
+		if(strList == null || strList.isEmpty()) return strList;
 		List<String> list = new ArrayList<String>();
+		Map<String, List<String>> groupMap = new HashMap<String, List<String>>();
+
+		//for each string, find its base form: average # of chars in each string m -> O(m), O(m)
+		//insert this into a hashmap: baseString -> string in a list
+		//  - if no key, put(key, list with one node)
+		//  - if key exists, map.get(key).add(new node);
+		String anagram = "";
+		for(String s : strList){
+			anagram = findAnagramForm(s);
+			if(groupMap.containsKey(anagram)){
+				groupMap.get(anagram).add(s);
+			}
+			else{
+				List<String> newList = new ArrayList<String>();
+				newList.add(s);
+				groupMap.put(anagram, newList);
+			}
+		}
+
+		//traverse the map and all its list and copy them one by one into the output list
+		for(Map.Entry<String, List<String>> e : groupMap.entrySet()){
+			for(String s: e.getValue()){
+				list.add(s);
+			}
+		}
 
 		return list;
+	}
+
+	private String findAnagramForm(String s){
+		int[] chars = new int[256];
+		for(char c : s.toCharArray()){
+			chars[c]++;
+		}
+
+		StringBuffer sb = new StringBuffer();
+		for(int i = 0; i < chars.length; i++){
+			while(chars[i] > 0){
+				sb.append((char)i);
+				chars[i]--;
+			}
+		}
+
+		return sb.toString();
 	}
 
 	public static void main(String[] args){
@@ -106,8 +169,10 @@ public class StringProblems {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		
+
 		String s1 = "daC", s2 = "Cad";
 		System.out.println("String s1: " + s1 + " and s2: "+ s2 + " are anagrams? " +sp.checkAnagrams(s1, s2));
+		
+		sp.useGroupStrings();
 	}
 }
