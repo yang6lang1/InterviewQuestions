@@ -2,12 +2,62 @@ package ArrayStrings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class StringProblems {
 
-	/* Given a number n, find the largest number just smaller than n 
+	/** Implement an algorithm to determine if a string has all unique characters.
+	 *  What if you cannot use additional data structure (Mar 17)
+	 * */
+	public boolean stringHasUniqueChars(String s){
+		//approach 1: use boolean[] status = new boolean[256] - assume ASCII characters
+		//approach 2: use Set<Character> status = new HashSet<Character>()
+		//approach 3: use double and bit operation - assume 'a' - 'Z'
+		return stringHasUniqueChars_2(s);
+	}
+
+	/**
+	 * approach 2: use Set<Character> status = new HashSet<Character>()
+	 * */
+	private boolean stringHasUniqueChars_1(String s){
+		if (s == null || s.length() <= 1) return true;
+
+		Set<Character> status = new HashSet<Character>();
+		for(char c : s.toCharArray()){
+			if(status.contains(c)){
+				return false;
+			}
+			else{
+				status.add(c);
+			}
+		}
+
+		return true;
+	}
+	
+	/** approach 3: use double and bit operation - assume 'a' - 'Z'
+	 * */
+	private boolean stringHasUniqueChars_2(String s){
+    if(s == null || s.length() <= 1) return true;
+    long status = 0;
+    
+    for(char c : s.toCharArray()){
+        int offset = c - 'a';
+        if (((status >> offset) & 1) == 1){
+            return false;
+        }
+        else{
+            status |= 1 << (c - 'a');
+        }
+    }
+    
+    return true;
+}
+
+	/** Given a number n, find the largest number just smaller than n 
 	 * that can be formed using the same digits as n.
 	 * Eg: 1342, return 1324*/
 	public int findLargestSmallerNumber(int n) throws Exception{
@@ -49,7 +99,7 @@ public class StringProblems {
 		return output;
 	}
 
-	/* Given two strings, determine whether they are anagrams (Mar 14)
+	/** Given two strings, determine whether they are anagrams (Mar 14)
 	 * This solution is case sensitive
 	 * */
 	public boolean checkAnagrams(String s1, String s2){
@@ -99,7 +149,7 @@ public class StringProblems {
 		for(String s : list){
 			System.out.println(s);
 		}
-		
+
 		System.out.println();
 		System.out.println("Grouped string list");
 		list = groupStrings(list);
@@ -107,12 +157,9 @@ public class StringProblems {
 			System.out.println(s);
 		}
 	}
-	
-	/* Given a list of strings, group strings, group them by anagrams (Mar 15)
+
+	/** Given a list of strings, group strings, group them by anagrams (Mar 15)
 	 * */
-	//test case:
-	// -empty/null list -list with one element - list with identical elements 
-	//- list with different anagram groups in various order
 	public List<String> groupStrings(List<String> strList) {
 		if(strList == null || strList.isEmpty()) return strList;
 		List<String> list = new ArrayList<String>();
@@ -144,7 +191,6 @@ public class StringProblems {
 
 		return list;
 	}
-
 	private String findAnagramForm(String s){
 		int[] chars = new int[256];
 		for(char c : s.toCharArray()){
@@ -172,7 +218,10 @@ public class StringProblems {
 
 		String s1 = "daC", s2 = "Cad";
 		System.out.println("String s1: " + s1 + " and s2: "+ s2 + " are anagrams? " +sp.checkAnagrams(s1, s2));
-		
+
 		sp.useGroupStrings();
+
+		String s = "alex";
+		System.out.println("String '" + s + "' contains only unique characters: " + sp.stringHasUniqueChars(s));
 	}
 }

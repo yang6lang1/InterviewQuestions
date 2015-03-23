@@ -16,7 +16,7 @@ public class TreeProblems {
 		TreeNode<Integer> root = new TreeNode<Integer>(5, a1, a2);
 		System.out.println("LCA: "+getLCA(root, 8, 6).getElement());
 	}
-	/* Given two nodes, find the lowest common ancestors in a binary tree (not BST)
+	/** Given two nodes, find the lowest common ancestors in a binary tree (not BST)
 	 * (Assume tree doesn't have duplicate nodes) (Mar 16)
 	 * */
 	public TreeNode<Integer> getLCA(TreeNode<Integer> root, int n1, int n2){
@@ -44,6 +44,12 @@ public class TreeProblems {
 		return LCA;
 	}
 
+	/** Print a tree, breath first (March 18)
+	 * */
+	public void printTreeBreathFirst(TreeNode<Integer> root){
+		
+	}
+	
 	public Result findNode(TreeNode<Integer> root, int n){
 		if (root == null) return new Result();
 
