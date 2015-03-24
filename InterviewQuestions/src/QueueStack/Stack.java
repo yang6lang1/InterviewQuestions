@@ -12,6 +12,7 @@ public class Stack<T> {
 	}
 	
 	public void push(T element){
+		if(element == null) return;
 		Node<T> newNode = new Node<T>(element, null);
 		if(tail == null) {
 			tail = newNode;
