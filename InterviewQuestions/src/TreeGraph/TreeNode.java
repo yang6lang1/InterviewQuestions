@@ -40,4 +40,8 @@ public class TreeNode<T>{
 	public TreeNode<T> getRight(){
 		return this.right;
 	}
+	
+	public String toString(){
+		return element.toString();
+	}
 }

@@ -3,7 +3,7 @@ package TreeGraph;
 import java.util.ArrayList;
 import java.util.List;
 
-import LinkedList.Node;
+import LinkedList.LinkedList;
 import QueueStack.Queue;
 import QueueStack.Stack;
 
@@ -49,7 +49,7 @@ public class TreeProblems {
 		return LCA;
 	}
 
-	public void usePrintTreeBreathFirst(){
+	public void useTreeMethods(){
 		System.out.println();
 		TreeNode<Integer> b5 = new TreeNode<Integer>(8,null,null);
 		TreeNode<Integer> b4 = new TreeNode<Integer>(9,b5,null);
@@ -61,6 +61,12 @@ public class TreeProblems {
 		TreeNode<Integer> root = new TreeNode<Integer>(5, a1, a2);
 		System.out.println("print tree breath first:");
 		printTreeBreathFirst(root);
+		
+		System.out.println();
+		List<LinkedList<TreeNode<Integer>>> list = getListOfLLFromTree(root);
+		for(LinkedList<TreeNode<Integer>> ll : list){
+			ll.printAll();
+		}
 	}
 	/** Print a tree, breath first (March 18)
 	 * */
@@ -86,13 +92,45 @@ public class TreeProblems {
 
 	/** Design an algorithm which creates a linked list of all the nodes at
 	 * each depth. (March 19)
+	 * 
+	 * 
 	 * */
-	public List<Node<Integer>> getLinklistsOfAllTreeElementsByDepth(TreeNode<Integer> root){
-		List<Node<Integer>> lists = new ArrayList<Node<Integer>>();
-
-		return lists;
+	public List<LinkedList<TreeNode<Integer>>> getListOfLLFromTree(TreeNode<Integer> root){    
+		/*
+		1. tree empty
+		2. pre order traversal
+		   check if a node is null, return
+		   get i linkedlist from arraylist, 
+		       if exist, insert the current node into the linkedlist
+		       if not, create a new ll
+		   pass down to left
+		   pass down to right
+		 */
+		List<LinkedList<TreeNode<Integer>>> list = new ArrayList<LinkedList<TreeNode<Integer>>>();
+		list = createList(root, 0, list);
+		return list.isEmpty()? null : list;
 	}
 
+	private List<LinkedList<TreeNode<Integer>>> createList(TreeNode<Integer> root, 
+			int depth, List<LinkedList<TreeNode<Integer>>> list){
+		if (root == null) return list;
+		if (depth > list.size()-1){
+			LinkedList<TreeNode<Integer>> ll = new LinkedList<TreeNode<Integer>>();
+			ll.addBack(root);
+			list.add(ll);
+		}
+		else{
+			LinkedList<TreeNode<Integer>> ll = list.get(depth);
+			ll.addBack(root);
+			list.set(depth, ll);
+		}
+
+		list = createList(root.getLeft(), depth+1, list);
+		list = createList(root.getRight(), depth+1, list);
+
+		return list;
+	}
+	
 	public Result findNode(TreeNode<Integer> root, int n){
 		if (root == null) return new Result();
 
@@ -132,6 +170,6 @@ public class TreeProblems {
 	public static void main(String[] args){
 		TreeProblems tp = new TreeProblems();
 		tp.useGetLCA();
-		tp.usePrintTreeBreathFirst();
+		tp.useTreeMethods();
 	}
 }
