@@ -1,6 +1,7 @@
 package ArrayStrings;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -37,26 +38,60 @@ public class StringProblems {
 
 		return true;
 	}
-	
+
 	/** approach 3: use double and bit operation - assume 'a' - 'Z'
 	 * */
 	private boolean stringHasUniqueChars_2(String s){
-    if(s == null || s.length() <= 1) return true;
-    long status = 0;
-    
-    for(char c : s.toCharArray()){
-        int offset = c - 'a';
-        if (((status >> offset) & 1) == 1){
-            return false;
-        }
-        else{
-            status |= 1 << (c - 'a');
-        }
-    }
-    
-    return true;
-}
+		if(s == null || s.length() <= 1) return true;
+		long status = 0;
 
+		for(char c : s.toCharArray()){
+			int offset = c - 'a';
+			System.out.println(offset);
+			if ((status & (1 << offset)) != 0){
+				return false;
+			}
+			else{
+				status |= (1 << offset);
+			}
+		}
+
+		return true;
+	}
+
+	/** Check if two strings are permutations of each other
+	 * */
+	private String sortString(String s){
+		if (s == null) return null;
+		char[] chars = s.toCharArray();
+		Arrays.sort(chars);
+		return new String(chars);
+	}
+	
+	private boolean isPermutation(String s1, String s2){
+		return sortString(s1).equals(sortString(s2));
+	}
+	
+	private boolean isPermutation2(String s1, String s2){
+		if(s1 == null || s2 == null) return false;
+		if(s1.length() != s2.length()) return false;
+		
+		int[] count = new int[256];
+		for(int i = 0; i < s1.length(); i++){
+			count[s1.charAt(i)]++;
+		}
+		
+		for(int i = 0; i < s2.length(); i++){
+			if(count[s2.charAt(i)] <= 0){
+				return false;
+			}
+			else{
+				count[s2.charAt(i)]--;
+			}
+		}
+		return true;
+	}
+	
 	/** Given a number n, find the largest number just smaller than n 
 	 * that can be formed using the same digits as n.
 	 * Eg: 1342, return 1324*/
@@ -219,8 +254,12 @@ public class StringProblems {
 		String s1 = "daC", s2 = "Cad";
 		System.out.println("String s1: " + s1 + " and s2: "+ s2 + " are anagrams? " +sp.checkAnagrams(s1, s2));
 
+		System.out.println();
+		System.out.println("String s1: " + s1 + " and s2: "+ s2 + " are permutations? " +sp.isPermutation2(s1, s2));
+		
 		sp.useGroupStrings();
 
+		System.out.println();
 		String s = "alex";
 		System.out.println("String '" + s + "' contains only unique characters: " + sp.stringHasUniqueChars(s));
 	}
