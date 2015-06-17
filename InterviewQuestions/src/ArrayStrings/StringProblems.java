@@ -59,6 +59,30 @@ public class StringProblems {
 		return true;
 	}
 
+	
+	/** Replace all the spaces in a string with "%20"
+	 * 	You can assume the string has enough spaces at the back
+	 * */
+	public String replaceSpaces(String oldStr, int trueLen){
+		if(oldStr == null || oldStr.length() == 0) return "";
+		char[] chars = oldStr.toCharArray();
+		
+		int p1 = trueLen - 1, p2 = chars.length - 1;
+		while(p1 >= 0) {
+			if(chars[p1] == ' '){
+				chars[p2--] = '0';
+				chars[p2--] = '2';
+				chars[p2--] = '%';
+			}
+			else{
+				chars[p2--] = chars[p1];
+			}
+			p1--;
+		}
+		
+		return new String(chars);
+	}
+	
 	/** Check if two strings are permutations of each other
 	 * */
 	private String sortString(String s){
@@ -262,5 +286,9 @@ public class StringProblems {
 		System.out.println();
 		String s = "alex";
 		System.out.println("String '" + s + "' contains only unique characters: " + sp.stringHasUniqueChars(s));
+		
+		System.out.println();
+		s = "al e x    ";
+		System.out.println(sp.replaceSpaces(s, 6));
 	}
 }
