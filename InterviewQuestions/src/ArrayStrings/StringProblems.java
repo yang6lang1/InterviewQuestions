@@ -59,14 +59,14 @@ public class StringProblems {
 		return true;
 	}
 
-	
+
 	/** Replace all the spaces in a string with "%20"
 	 * 	You can assume the string has enough spaces at the back
 	 * */
 	public String replaceSpaces(String oldStr, int trueLen){
 		if(oldStr == null || oldStr.length() == 0) return "";
 		char[] chars = oldStr.toCharArray();
-		
+
 		int p1 = trueLen - 1, p2 = chars.length - 1;
 		while(p1 >= 0) {
 			if(chars[p1] == ' '){
@@ -79,10 +79,10 @@ public class StringProblems {
 			}
 			p1--;
 		}
-		
+
 		return new String(chars);
 	}
-	
+
 	/** Check if two strings are permutations of each other
 	 * */
 	private String sortString(String s){
@@ -91,20 +91,20 @@ public class StringProblems {
 		Arrays.sort(chars);
 		return new String(chars);
 	}
-	
+
 	private boolean isPermutation(String s1, String s2){
 		return sortString(s1).equals(sortString(s2));
 	}
-	
+
 	private boolean isPermutation2(String s1, String s2){
 		if(s1 == null || s2 == null) return false;
 		if(s1.length() != s2.length()) return false;
-		
+
 		int[] count = new int[256];
 		for(int i = 0; i < s1.length(); i++){
 			count[s1.charAt(i)]++;
 		}
-		
+
 		for(int i = 0; i < s2.length(); i++){
 			if(count[s2.charAt(i)] <= 0){
 				return false;
@@ -115,7 +115,47 @@ public class StringProblems {
 		}
 		return true;
 	}
-	
+
+	private String compression(String str){
+		if(str == null) return null;
+
+		StringBuffer sb = new StringBuffer();
+		char prev = '\0';
+		int count = 0;
+
+		for(int i = 0; i < str.length(); i++){
+			if(prev == '\0'){
+				prev = str.charAt(i);
+				count = 1;
+				sb.append(prev);
+			}
+			else{
+				if(prev == str.charAt(i)){
+					count++;
+				}
+				else{
+					sb.append(count);
+					prev = str.charAt(i);
+					count = 1;
+					sb.append(prev);
+				}
+			}
+
+			if(str.length() == (i+1)){
+				sb.append(count);
+				break;      
+			}
+		}
+
+		String newStr = sb.toString();
+		if(newStr.length() < str.length()){
+			return newStr;
+		}
+		else{
+			return str;
+		}
+	}
+
 	/** Given a number n, find the largest number just smaller than n 
 	 * that can be formed using the same digits as n.
 	 * Eg: 1342, return 1324*/
@@ -280,15 +320,20 @@ public class StringProblems {
 
 		System.out.println();
 		System.out.println("String s1: " + s1 + " and s2: "+ s2 + " are permutations? " +sp.isPermutation2(s1, s2));
-		
+
 		sp.useGroupStrings();
 
 		System.out.println();
 		String s = "alex";
 		System.out.println("String '" + s + "' contains only unique characters: " + sp.stringHasUniqueChars(s));
-		
+
 		System.out.println();
 		s = "al e x    ";
 		System.out.println(sp.replaceSpaces(s, 6));
+		
+		System.out.println();
+		s ="aaabbba";
+		System.out.println("Compressed string: \"" + sp.compression(s) + "\"");
+		System.out.println();
 	}
 }
