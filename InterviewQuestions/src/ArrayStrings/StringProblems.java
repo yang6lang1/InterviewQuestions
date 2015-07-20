@@ -156,6 +156,33 @@ public class StringProblems {
 		}
 	}
 
+	public boolean isSubstring(String str, String sub){
+		if(str == null || sub == null) return false;
+		if(str.length() < sub.length()) return false;
+		if(str.length() == sub.length()) return str.compareTo(sub) == 0? true : false;
+
+		for(int i = 0; i < str.length() - sub.length(); i++){
+			for(int j = 0; j < sub.length(); j++){
+				if(sub.charAt(j) != str.charAt(i+j)){
+					break;
+				}
+				if(j == sub.length() -1){
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	public boolean isRotataion(String s1, String s2){
+		if(s1 == null || s2 == null) return false;
+		if(s1.length() != s2.length()) return false;
+
+		String longStr = s1.concat(s1);
+		return isSubstring(longStr, s2);
+	}
+
 	/** Given a number n, find the largest number just smaller than n 
 	 * that can be formed using the same digits as n.
 	 * Eg: 1342, return 1324*/
@@ -330,10 +357,22 @@ public class StringProblems {
 		System.out.println();
 		s = "al e x    ";
 		System.out.println(sp.replaceSpaces(s, 6));
-		
+
 		System.out.println();
 		s ="aaabbba";
 		System.out.println("Compressed string: \"" + sp.compression(s) + "\"");
+		System.out.println();
+
+		System.out.println();
+		s ="abcdef";
+		String sub = "abcde";
+		System.out.println("Is string " + sub + " a substring of " + s + "? " + sp.isSubstring(s, sub));
+		System.out.println();
+
+		System.out.println();
+		s ="abcdef";
+		sub = "efabcd";
+		System.out.println("Is string " + sub + " a rotation of " + s + "? " + sp.isRotataion(s, sub));
 		System.out.println();
 	}
 }
