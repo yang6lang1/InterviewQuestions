@@ -2,6 +2,8 @@ package LinkedList;
 
 public class LinkedListProblems {
 
+	/**Remove duplicates in an unsorted linked list*/
+	
 	//Implement a method to add two big numbers represented by string
 	public String sumOfNums(String a, String b) throws Exception {
 		//generate 1 linekd list that contains the sum: sumList a = 321, b = 32, sum = 3->5->3
@@ -71,5 +73,20 @@ public class LinkedListProblems {
     } catch (Exception e) {
     	e.printStackTrace();
     }
+
+		System.out.println();
+		System.out.println("LinkedList test:");
+		LinkedList<Integer> list = new LinkedList<Integer>();
+		list.addBack(5);
+		list.addBack(6);
+		list.addBack(7);
+		list.addBack(8);
+		list.addBack(9);
+		list.printAll();
+		int index = 3;
+		System.out.println("Delete index " + index + " : ");
+		list.delete(index);
+		list.printAll();
+		System.out.println();
 	}
 }
