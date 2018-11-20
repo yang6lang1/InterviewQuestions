@@ -1,4 +1,7 @@
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 public class QueueProblems {
     /** Number of Islands problem:
@@ -162,18 +165,95 @@ public class QueueProblems {
         Every string in deadends and the string target will be a string of 4 digits from the 10,000 possibilities '0000' to '9999'.
      */
     public int openLock(String[] deadends, String target) {
+        //Process dependents
+        Set<Integer> deadendSet = new HashSet<Integer>();
+        for (String deadend : deadends) {
+            int val = Integer.parseInt(deadend);
+            deadendSet.add(val);
+        }
 
+        int currentVal = 0, targetVal = Integer.parseInt(target), steps = 0;
+        if (currentVal == targetVal) {
+            return 0;
+        }
+        if (deadendSet.contains(currentVal)) {
+            return -1;
+        }
+        LinkedList<Integer> checkList = new LinkedList<Integer>();
+        int[] distance = new int[10000];
+        for (int i = 0; i < distance.length; i++) {
+            distance[i] = -1;
+        }
+        distance[currentVal] = steps;
+        checkList.push(currentVal);
+        while (!checkList.isEmpty()) {
+            currentVal = checkList.pollLast();
+            steps = distance[currentVal];
+            if (currentVal == targetVal) {
+                return steps;
+            }
+
+            //Check eight sibling nodes
+            int digitOne = (int)(currentVal / 1000);
+            int digitTwo = (int)((currentVal / 100) % 10);
+            int digitThree = (int)((currentVal / 10) % 10);
+            int digitFour = (int)(currentVal % 10);
+
+            int resultOne = (digitOne + 1) % 10 * 1000 + digitTwo * 100 + digitThree * 10 + digitFour;
+            this.updateDistanceMapAndCheckList(resultOne, steps + 1, deadendSet, distance, checkList);
+
+            int resultTwo = digitOne * 1000 + (digitTwo + 1) % 10 * 100 + digitThree * 10 + digitFour;
+            this.updateDistanceMapAndCheckList(resultTwo, steps + 1, deadendSet, distance, checkList);
+
+            int resultThree = digitOne * 1000 + digitTwo * 100 + (digitThree + 1) % 10 * 10 + digitFour;
+            this.updateDistanceMapAndCheckList(resultThree, steps + 1, deadendSet, distance, checkList);
+
+            int resultFour = digitOne * 1000 + digitTwo * 100 + digitThree * 10 + (digitFour + 1) % 10;
+            this.updateDistanceMapAndCheckList(resultFour, steps + 1, deadendSet, distance, checkList);
+
+            int resultFive = (digitOne + 9) % 10 * 1000 + digitTwo * 100 + digitThree * 10 + digitFour;
+            this.updateDistanceMapAndCheckList(resultFive, steps + 1, deadendSet, distance, checkList);
+
+            int resultSix = digitOne * 1000 + (digitTwo + 9) % 10 * 100 + digitThree * 10 + digitFour;
+            this.updateDistanceMapAndCheckList(resultSix, steps + 1, deadendSet, distance, checkList);
+
+            int resultSeven = digitOne * 1000 + digitTwo * 100 + (digitThree + 9) % 10 * 10 + digitFour;
+            this.updateDistanceMapAndCheckList(resultSeven, steps + 1, deadendSet, distance, checkList);
+
+            int resultEight = digitOne * 1000 + digitTwo * 100 + digitThree * 10 + (digitFour + 9) % 10;
+            this.updateDistanceMapAndCheckList(resultEight, steps + 1, deadendSet, distance, checkList);
+        }
+        return -1;
+    }
+
+    private void updateDistanceMapAndCheckList(int val, int steps, Set<Integer> deadendSet, int[] distance, LinkedList<Integer> checklist) {
+        if (distance[val] == -1) { //never visited
+            distance[val] = steps;
+            if (!deadendSet.contains(val)) {
+                checklist.push(val);
+            }
+        }
     }
 
     public static void main(String[] args) {
         QueueProblems p = new QueueProblems();
-        char[][] a = new char[4][5];
-        a[0][0] = '1'; a[0][1] = '1'; a[0][2] = '1'; a[0][3] = '1'; a[0][4] = '0';
-        a[1][0] = '1'; a[1][1] = '1'; a[1][2] = '0'; a[1][3] = '1'; a[1][4] = '0';
-        a[2][0] = '1'; a[2][1] = '1'; a[2][2] = '0'; a[2][3] = '0'; a[2][4] = '0';
-        a[3][0] = '0'; a[3][1] = '0'; a[3][2] = '0'; a[3][3] = '0'; a[3][4] = '0';
-        // char[][] a = {{'1','1','1'},{'0','1','0'},{'1','1','1'}};
-        int num = p.numIslands(a);
-        System.out.println("Output is: " + num);
+        // char[][] a = new char[4][5];
+        // a[0][0] = '1'; a[0][1] = '1'; a[0][2] = '1'; a[0][3] = '1'; a[0][4] = '0';
+        // a[1][0] = '1'; a[1][1] = '1'; a[1][2] = '0'; a[1][3] = '1'; a[1][4] = '0';
+        // a[2][0] = '1'; a[2][1] = '1'; a[2][2] = '0'; a[2][3] = '0'; a[2][4] = '0';
+        // a[3][0] = '0'; a[3][1] = '0'; a[3][2] = '0'; a[3][3] = '0'; a[3][4] = '0';
+        // // char[][] a = {{'1','1','1'},{'0','1','0'},{'1','1','1'}};
+        // int num = p.numIslands(a);
+        // System.out.println("Output is: " + num);
+
+        // String[] deadends = {"0201","0101","0102","1212","2002"}
+        // int result = p.openLock(deadends, "0202");
+        // String[] deadends = {"8888"};
+        // int result = p.openLock(deadends, "0009");
+        // String[] deadends = {"8887","8889","8878","8898","8788","8988","7888","9888"};
+        // int result = p.openLock(deadends, "8888");
+        String[] deadends = {"0000"};
+        int result = p.openLock(deadends, "8888");
+        System.out.println("steps taken: " + result);
     }
 }
