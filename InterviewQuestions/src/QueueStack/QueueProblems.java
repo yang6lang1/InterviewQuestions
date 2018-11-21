@@ -1,6 +1,8 @@
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class QueueProblems {
@@ -235,6 +237,52 @@ public class QueueProblems {
         }
     }
 
+    /*  Given a positive integer n, find the least number of perfect square numbers (for example, 1, 4, 9, 16, ...)
+        which sum to n.
+        Example 1:
+
+        Input: n = 12
+        Output: 3
+        Explanation: 12 = 4 + 4 + 4.
+        Example 2:
+
+        Input: n = 13
+        Output: 2
+        Explanation: 13 = 4 + 9.
+    */
+    public int numSquares(int n) {
+        Map<Integer, Integer> numberToStepsMap = new HashMap<Integer, Integer>();
+        Set<Integer> perfectSquares = new HashSet<Integer>();
+        LinkedList<Integer> checkList = new LinkedList<Integer>();
+        //Fill in perfectSquares hashSet
+        int currBaseVal = 1;
+        while (currBaseVal * currBaseVal <= n) {
+            perfectSquares.add(currBaseVal * currBaseVal);
+            currBaseVal++;
+        }
+
+        checkList.push(n);
+        numberToStepsMap.put(n, 1);
+        while(!checkList.isEmpty()) {
+            int currVal = checkList.pollLast();
+            // System.out.println("checkList: " + checkList);
+            for (int perfSquareNum : perfectSquares) {
+                int num = currVal - perfSquareNum;
+                int currSteps = numberToStepsMap.get(currVal);
+                if (num == 0) {
+                    return currSteps;
+                } else if (num > 0) {
+                    if (!numberToStepsMap.containsKey(num)) {
+                        numberToStepsMap.put(num, currSteps + 1);
+                        checkList.push(num);
+                        // System.out.println("checkList: " + checkList);
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
         QueueProblems p = new QueueProblems();
         // char[][] a = new char[4][5];
@@ -252,8 +300,12 @@ public class QueueProblems {
         // int result = p.openLock(deadends, "0009");
         // String[] deadends = {"8887","8889","8878","8898","8788","8988","7888","9888"};
         // int result = p.openLock(deadends, "8888");
-        String[] deadends = {"0000"};
-        int result = p.openLock(deadends, "8888");
-        System.out.println("steps taken: " + result);
+        // String[] deadends = {"0000"};
+        // int result = p.openLock(deadends, "8888");
+        // System.out.println("steps taken: " + result);
+
+        int n = 12;
+        int steps = p.numSquares(n);
+        System.out.println(steps);
     }
 }
