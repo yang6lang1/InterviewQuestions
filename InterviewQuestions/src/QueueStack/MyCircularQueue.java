@@ -1,3 +1,4 @@
+package QueueStack;
 
 //input type? integer
 //input range? [0, 1000]
@@ -11,13 +12,13 @@ public class MyCircularQueue {
     private int start, end;
 
     public static final int QUEUE_EMPTY = -1;
-    
+
     /** Initialize your data structure here. Set the size of the queue to be k. */
     public MyCircularQueue(int k) {
         queue = new int[k];
         start = end = -1;
     }
-    
+
     /** Insert an element into the circular queue. Return true if the operation is successful. */
     public boolean enQueue(int value) {
         if (this.isFull()) {
@@ -33,7 +34,7 @@ public class MyCircularQueue {
 
         return true;
     }
-    
+
     /** Delete an element from the circular queue. Return true if the operation is successful. */
     public boolean deQueue() {
         if (start == end && !this.isEmpty()) {
@@ -48,7 +49,7 @@ public class MyCircularQueue {
         start = start % queue.length;
         return true;
     }
-    
+
     /** Get the front item from the queue. */
     public int Front() {
         if (this.isEmpty()) {
@@ -56,7 +57,7 @@ public class MyCircularQueue {
         }
         return queue[start];
     }
-    
+
     /** Get the last item from the queue. */
     public int Rear() {
         if (this.isEmpty()) {
@@ -64,12 +65,12 @@ public class MyCircularQueue {
         }
         return queue[end];
     }
-    
+
     /** Checks whether the circular queue is empty or not. */
     public boolean isEmpty() {
         return (start == -1 && end == -1);
     }
-    
+
     /** Checks whether the circular queue is full or not. */
     public boolean isFull() {
         // return (end > start ? end : end + queue.length) - start + 1 == queue.length;
