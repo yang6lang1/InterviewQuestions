@@ -61,7 +61,7 @@ public class TreeProblems {
 		TreeNode<Integer> root = new TreeNode<Integer>(5, a1, a2);
 		System.out.println("print tree breath first:");
 		printTreeBreathFirst(root);
-		
+
 		System.out.println();
 		List<LinkedList<TreeNode<Integer>>> list = getListOfLLFromTree(root);
 		for(LinkedList<TreeNode<Integer>> ll : list){
@@ -72,7 +72,7 @@ public class TreeProblems {
 	 * */
 	public void printTreeBreathFirst(TreeNode<Integer> root){
 		Queue<TreeNode<Integer>> curr = new Queue<TreeNode<Integer>>();
-		Queue<TreeNode<Integer>> todo = new Queue<TreeNode<Integer>>();    
+		Queue<TreeNode<Integer>> todo = new Queue<TreeNode<Integer>>();
 
 		TreeNode<Integer> currNode = null;
 		todo.push(root);
@@ -92,15 +92,15 @@ public class TreeProblems {
 
 	/** Design an algorithm which creates a linked list of all the nodes at
 	 * each depth. (March 19)
-	 * 
-	 * 
+	 *
+	 *
 	 * */
-	public List<LinkedList<TreeNode<Integer>>> getListOfLLFromTree(TreeNode<Integer> root){    
+	public List<LinkedList<TreeNode<Integer>>> getListOfLLFromTree(TreeNode<Integer> root){
 		/*
 		1. tree empty
 		2. pre order traversal
 		   check if a node is null, return
-		   get i linkedlist from arraylist, 
+		   get i linkedlist from arraylist,
 		       if exist, insert the current node into the linkedlist
 		       if not, create a new ll
 		   pass down to left
@@ -111,7 +111,7 @@ public class TreeProblems {
 		return list.isEmpty()? null : list;
 	}
 
-	private List<LinkedList<TreeNode<Integer>>> createList(TreeNode<Integer> root, 
+	private List<LinkedList<TreeNode<Integer>>> createList(TreeNode<Integer> root,
 			int depth, List<LinkedList<TreeNode<Integer>>> list){
 		if (root == null) return list;
 		if (depth > list.size()-1){
@@ -130,7 +130,7 @@ public class TreeProblems {
 
 		return list;
 	}
-	
+
 	public Result findNode(TreeNode<Integer> root, int n){
 		if (root == null) return new Result();
 
@@ -160,8 +160,37 @@ public class TreeProblems {
 		public Stack<Integer> steps;
 
 		public Result(){
-			exist = false; 
+			exist = false;
 			steps = new Stack<Integer>();
+		}
+	}
+
+	public int findClosestValue(BSTNode<Integer> root, int k) {
+		if (root == null) {
+			return -1;
+		}
+		if (root.getValue() == k) {
+			return root.getValue();
+		} else if (root.getValue() < k) { //compare with right
+			if (root.getRight() == null) {
+				return root.getValue();
+			} else if (root.getRight().getValue() >= k) {
+				int deltaToRoot = Math.abs(root.getValue() - k);
+				int deltaToRight = Math.abs(root.getRight().getValue() - k);
+				return deltaToRight > deltaToRoot ? root.getValue() : root.getRight().getValue();
+			} else {
+				return this.findClosestValue(root.getRight(), k);
+			}
+		} else { //compare with left
+			if (root.getLeft() == null) {
+				return root.getValue();
+			} else if (root.getLeft().getValue() <= k) {
+				int deltaToRoot = Math.abs(root.getValue() - k);
+				int deltaToLeft = Math.abs(root.getLeft().getValue() - k);
+				return deltaToLeft > deltaToRoot ? root.getValue() : root.getLeft().getValue();
+			} else {
+				return this.findClosestValue(root.getLeft(), k);
+			}
 		}
 	}
 
@@ -169,7 +198,34 @@ public class TreeProblems {
 	 * */
 	public static void main(String[] args){
 		TreeProblems tp = new TreeProblems();
-		tp.useGetLCA();
-		tp.useTreeMethods();
+		// tp.useGetLCA();
+		// tp.useTreeMethods();
+	}
+
+	/** Given a binary search tree of integers and a number K, find the number in the tree that has the closest value */
+	public class BSTNode<T> {
+		private T value;
+		private BSTNode<T> left;
+		private BSTNode<T> right;
+		public BSTNode() {
+			this.value = null;
+			this.left = null;
+			this.right = null;
+		}
+		public BSTNode(T val, BSTNode<T> l, BSTNode<T> r) {
+			this.value = val;
+			this.left = l;
+			this.right = r;
+		}
+
+		public BSTNode<T> getLeft() {
+			return this.left;
+		}
+		public BSTNode<T> getRight() {
+			return this.right;
+		}
+		public T getValue() {
+			return this.value;
+		}
 	}
 }
