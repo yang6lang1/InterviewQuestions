@@ -165,6 +165,27 @@ public class TreeProblems {
 		}
 	}
 
+	/** Given a binary search tree of integers and a number K, find the number in the tree that has the closest value */
+	private static class BSTNode<T> {
+		private T value;
+		private BSTNode<T> left;
+		private BSTNode<T> right;
+		public BSTNode(T val, BSTNode<T> l, BSTNode<T> r) {
+			this.value = val;
+			this.left = l;
+			this.right = r;
+		}
+
+		public BSTNode<T> getLeft() {
+			return this.left;
+		}
+		public BSTNode<T> getRight() {
+			return this.right;
+		}
+		public T getValue() {
+			return this.value;
+		}
+	}
 	public int findClosestValue(BSTNode<Integer> root, int k) {
 		if (root == null) {
 			return -1;
@@ -200,32 +221,12 @@ public class TreeProblems {
 		TreeProblems tp = new TreeProblems();
 		// tp.useGetLCA();
 		// tp.useTreeMethods();
-	}
-
-	/** Given a binary search tree of integers and a number K, find the number in the tree that has the closest value */
-	public class BSTNode<T> {
-		private T value;
-		private BSTNode<T> left;
-		private BSTNode<T> right;
-		public BSTNode() {
-			this.value = null;
-			this.left = null;
-			this.right = null;
-		}
-		public BSTNode(T val, BSTNode<T> l, BSTNode<T> r) {
-			this.value = val;
-			this.left = l;
-			this.right = r;
-		}
-
-		public BSTNode<T> getLeft() {
-			return this.left;
-		}
-		public BSTNode<T> getRight() {
-			return this.right;
-		}
-		public T getValue() {
-			return this.value;
-		}
+		BSTNode<Integer> l1 = new BSTNode<Integer>(5, null, null);
+		BSTNode<Integer> l2 = new BSTNode<Integer>(12, null, null);
+		BSTNode<Integer> l3 = new BSTNode<Integer>(18, null, null);
+		BSTNode<Integer> m1 = new BSTNode<Integer>(10, l1, l2);
+		BSTNode<Integer> m2 = new BSTNode<Integer>(20, l3, null);
+		BSTNode<Integer> r = new BSTNode<Integer>(15, m1, m2);
+		System.out.println(tp.findClosestValue(r, 16));
 	}
 }
