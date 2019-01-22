@@ -1,3 +1,13 @@
 Java in VSCode:
 - Red Hat extension
 - Java Debug
+
+Java Compliation Process:
+- Compile source code into class files, which consist of virtual machine instructions and other info...
+- Class files + library files => virtual maching => running program
+
+Types:
+String greeting = "Hello";
+int num = 13;
+
+Accessors/Mutators of class => Getters/Setters
