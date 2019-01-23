@@ -1,0 +1,39 @@
+- Number Types:
+int: 4 bytes -> 32 bits, - 2 ^ 31 ~ 2 ^ 31
+byte: 1 byte -> 8 bits, - 2 ^ 7 ~ 2 ^ 7 (128)
+short: 2 bytes, the short integer types, - 2 ^ 15 ~ 2 ^ 15
+long: 8 bytes, the long integer types
+double: 8 bytes -> 64 bits, the double-precision floating-point type,  about 15 significant decimal digits
+float: 4 bytes, about 7 significant decimal degits
+chart: 2 bytes -> 16 bits, The character type, representing code units in the Unicode encoding scheme
+boolean: 1 bit, true or false, 0 or 1
+
+Double type is not approprecate for financial calculations. Professional programs need to use the BigDecimal type for calculation
+
+Math.round(<double>): long
+
+BigInteger
+BigDecimal
+
+- Defining Constants:
+keyword: final
+Eg:
+public static final int age = 10;
+
+- Arithmetic Operations and Mathematical Functions
+(a + b) / c
+Devicion works as expected as long as at least one of the members involved is a floating-point number.
+Eg:
+7.0 / 4 = 1.75
+However, if all members are integer, such as 7 / 4, the answer will be an integer too.
+
+Remainder operator
+7 % 4 = 3
+
+Math.sqrt(x)
+Math.pow(x, y): x ^ y
+...
+Math.toRadians(x): convert x degrees to to radians
+Math.round(x)
+Math.ceil(x)
+Math.floor(x)
